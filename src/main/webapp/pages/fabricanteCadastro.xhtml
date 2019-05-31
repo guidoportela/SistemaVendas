@@ -10,6 +10,9 @@
 
 	<ui:define name="metadata">
 		<f:metadata>
+			<f:viewParam name="acao" value="#{fabricanteBean.acao}" />
+			<f:viewParam name="fabricanteSelecionado"
+				value="#{fabricanteBean.codigo}" />
 			<f:viewAction action="#{fabricanteBean.carregarCadastro}" />
 		</f:metadata>
 	</ui:define>
@@ -21,23 +24,33 @@
 			</p:toolbar>
 
 			<h:panelGrid id="pnlFabricante" columns="2">
-				<p:outputLabel value="Descrição: " />
-				<p:inputText maxlength="50" size="50"
-					value="#{fabricanteBean.fabricante.descricao}" />
+				<p:outputLabel value="Código: " />
+				<p:inputText size="10" readonly="true"
+					value="#{fabricanteBean.fabricante.codigo}" />
+
+				<p:outputLabel for="descricao" value="Descrição: " />
+				<p:inputText id="descricao" maxlength="50" size="50"
+					value="#{fabricanteBean.fabricante.descricao}" required="true"
+					requiredMessage="O campo descrição é obrigatório" />
 			</h:panelGrid>
 
 			<h:panelGrid columns="5">
 				<p:commandButton value="Novo"
 					actionListener="#{fabricanteBean.novoFabricante}"
-					update=":formulario:pnlFabricante" />
+					update=":formulario:pnlFabricante"
+					rendered="#{fabricanteBean.acao == 'Novo'}">
+					<f:actionListener
+						type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+				</p:commandButton>
 
 				<p:commandButton value="Guardar"
 					actionListener="#{fabricanteBean.salvar}"
-					update=":mensagem :formulario:pnlFabricante" />
+					update=":mensagem :formulario:pnlFabricante"
+					rendered="#{fabricanteBean.acao == 'Novo'}" />
 
 				<p:commandButton value="Editar"
-					actionListener="#{fabricanteBean.excluir}" update=":mensagem">
-				</p:commandButton>
+					actionListener="#{fabricanteBean.editar}" update=":mensagem"
+					rendered="#{fabricanteBean.acao == 'Editar'}" />
 
 				<p:button value="Voltar" outcome="/pages/fabricante.xhtml" />
 			</h:panelGrid>

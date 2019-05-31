@@ -1,5 +1,6 @@
 package br.com.vendas.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Ignore;
@@ -14,14 +15,16 @@ public class FuncionarioDAOTest {
 		Funcionario funcionario1 = new Funcionario();
 		funcionario1.setNome("Guido");
 		funcionario1.setCpf("11111111111");
-		funcionario1.setRg("1111111111111111");
+		funcionario1.setCarteiraTrabalho("111111111111111");
+		funcionario1.setDataAdmissao(new Date());
 		funcionario1.setFuncao("Administrador");
 		funcionario1.setSenha("1234");
 
 		Funcionario funcionario2 = new Funcionario();
 		funcionario2.setNome("Julia");
 		funcionario2.setCpf("21111111111");
-		funcionario2.setRg("2211111111111111");
+		funcionario2.setCarteiraTrabalho("111111111111111");
+		funcionario2.setDataAdmissao(new Date());
 		funcionario2.setFuncao("Administrador");
 		funcionario2.setSenha("4321");
 
@@ -79,10 +82,9 @@ public class FuncionarioDAOTest {
 	public void editar() {
 		Funcionario funcionario = new Funcionario();
 		funcionario.setCodigo(3L);
-		
+
 		funcionario.setNome("Guido Portela");
 		funcionario.setCpf("11111111111");
-		funcionario.setRg("1111111111111111");
 		funcionario.setFuncao("Administrador");
 		funcionario.setSenha("12345");
 

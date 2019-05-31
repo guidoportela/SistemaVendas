@@ -22,6 +22,7 @@
 				<f:facet name="header">Lista de Fabricantes</f:facet>
 				<f:facet name="footer">
 					<p:button value="Novo" outcome="/pages/fabricanteCadastro.xhtml">
+					<f:param name="acao" value="Novo" />
 					</p:button>
 				</f:facet>
 				<p:column headerText="Código" sortBy="#{cursorFabricante.codigo}"
@@ -36,45 +37,31 @@
 				</p:column>
 
 				<p:column headerText="Opções" style="width: 30%;">
-
 					<p:commandButton icon="ui-icon-trash"
-						oncomplete="PF('dlgforExcluir').show();"
-						update=":frmforExcluir:pnforExcluir">
-						<f:param name="fabricanteSelecionado" value="#{cursorFabricante}" />
+						actionListener="#{fabricanteBean.excluir}"
+						update=":mensagem :formListagem:tabela">
+						<p:confirm header="Confirmação"
+							message="Deseja realmente excluir esse fabricante?"
+							icon="ui-icon-alert" />
+						<f:attribute name="fabricanteSelecionado"
+							value="#{cursorFabricante}" />
 					</p:commandButton>
 
 					<p:button icon="ui-icon-pencil"
 						outcome="/pages/fabricanteCadastro.xhtml">
+						<f:param name="acao" value="Editar" />
 						<f:param name="fabricanteSelecionado"
 							value="#{cursorFabricante.codigo}" />
 					</p:button>
 				</p:column>
 			</p:dataTable>
+
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</p:confirmDialog>
 		</h:form>
-
-		<p:dialog widgetVar="dlgforExcluir" closable="false" draggable="false"
-			resizable="false" header="Excluir Fornecedor" modal="true">
-
-			<h:form id="frmforExcluir">
-				<h:panelGrid id="pnforExcluir" columns="2">
-					<h:outputText value="Código" />
-					<h:outputText value="#{fabricanteBean.fabricante.codigo}" />
-
-					<h:outputText value="Descrição" />
-					<h:outputText value="#{fabricanteBean.fabricante.descricao}" />
-				</h:panelGrid>
-
-				<h:panelGrid columns="2">
-					<p:commandButton value="Excluir"
-						actionListener="#{fabricanteBean.excluir}"
-						oncomplete="PF('dlgforExcluir').hide();"
-						update=":mensagem :formListagem:tabela formListagem:pnforExcluir" />
-					<p:commandButton value="Cancelar"
-						onclick="PF('dlgforExcluir').hide();" />
-				</h:panelGrid>
-
-			</h:form>
-
-		</p:dialog>
 	</ui:define>
 </ui:composition>

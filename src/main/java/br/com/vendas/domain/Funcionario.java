@@ -1,10 +1,14 @@
 package br.com.vendas.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Funcionario {
@@ -20,8 +24,12 @@ public class Funcionario {
 	@Column(length = 14, nullable = false, unique = true)
 	private String cpf;
 
-	@Column(length = 17, nullable = false, unique = true)
-	private String rg;
+	@Column(length = 15, nullable = false)
+	private String carteiraTrabalho;
+
+	@Column(nullable = false)
+	@Temporal(TemporalType.DATE)
+	private Date dataAdmissao;
 
 	@Column(length = 32, nullable = false)
 	private String senha;
@@ -53,12 +61,20 @@ public class Funcionario {
 		this.cpf = cpf;
 	}
 
-	public String getRg() {
-		return rg;
+	public String getCarteiraTrabalho() {
+		return carteiraTrabalho;
 	}
 
-	public void setRg(String rg) {
-		this.rg = rg;
+	public void setCarteiraTrabalho(String carteiraTrabalho) {
+		this.carteiraTrabalho = carteiraTrabalho;
+	}
+
+	public Date getDataAdmissao() {
+		return dataAdmissao;
+	}
+
+	public void setDataAdmissao(Date dataAdmissao) {
+		this.dataAdmissao = dataAdmissao;
 	}
 
 	public String getSenha() {
@@ -76,5 +92,4 @@ public class Funcionario {
 	public void setFuncao(String funcao) {
 		this.funcao = funcao;
 	}
-
 }

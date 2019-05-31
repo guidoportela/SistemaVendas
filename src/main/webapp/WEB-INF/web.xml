@@ -6,7 +6,7 @@
 
 	<!-- Nome da Aplicação -->
 	<display-name>Vendas</display-name>
-	
+
 	<!-- Página Principal -->
 	<welcome-file-list>
 		<welcome-file>pages/principal.xhtml</welcome-file>
@@ -17,7 +17,7 @@
 		<param-name>javax.faces.PROJECT_STAGE</param-name>
 		<param-value>Development</param-value>
 	</context-param>
-	
+
 	<!-- Tema do PrimeFaces -->
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
@@ -35,5 +35,9 @@
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 
+	<!-- Carregamento do Contexto do Hibernate -->
+	<listener>
+		<listener-class>br.com.vendas.util.ContextListener</listener-class>
+	</listener>
 </web-app>
 	

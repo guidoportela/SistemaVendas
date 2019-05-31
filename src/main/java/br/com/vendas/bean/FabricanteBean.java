@@ -5,12 +5,12 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
 
 import br.com.vendas.dao.FabricanteDAO;
 import br.com.vendas.domain.Fabricante;
-import br.com.vendas.util.FacesUtil;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -19,10 +19,10 @@ public class FabricanteBean implements Serializable {
 	private Fabricante fabricante;
 	private List<Fabricante> fabricantes;
 
+	private String acao;
+	private Long codigo;
+
 	public Fabricante getFabricante() {
-		if (fabricante == null) {
-			fabricante = new Fabricante();
-		}
 		return fabricante;
 	}
 
@@ -36,6 +36,22 @@ public class FabricanteBean implements Serializable {
 
 	public void setFabricantes(List<Fabricante> fabricantes) {
 		this.fabricantes = fabricantes;
+	}
+
+	public String getAcao() {
+		return acao;
+	}
+
+	public void setAcao(String acao) {
+		this.acao = acao;
+	}
+
+	public Long getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
 	}
 
 	public void listar() {
@@ -67,22 +83,22 @@ public class FabricanteBean implements Serializable {
 
 	public void carregarCadastro() {
 		try {
-			String valor = FacesUtil.getParam("fabricanteSelecionado");
-
-			if (valor != null) {
-				Long codigo = Long.parseLong(valor);
+			if (codigo != null) {
 				FabricanteDAO fabricanteDAO = new FabricanteDAO();
 				fabricante = fabricanteDAO.buscar(codigo);
+			} else {
+				fabricante = new Fabricante();
 			}
-
 		} catch (RuntimeException erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar carregar os dados do fabricante");
 			erro.printStackTrace();
 		}
 	}
 
-	public void excluir() {
+	public void excluir(ActionEvent evento) {
 		try {
+			fabricante = (Fabricante) evento.getComponent().getAttributes().get("fabricanteSelecionado");
+
 			FabricanteDAO fabricanteDAO = new FabricanteDAO();
 			fabricanteDAO.excluir(fabricante);
 			fabricantes = fabricanteDAO.listarOrdenado("descricao");
@@ -97,8 +113,7 @@ public class FabricanteBean implements Serializable {
 	public void editar() {
 		try {
 			FabricanteDAO fabricanteDAO = new FabricanteDAO();
-			fabricanteDAO.excluir(fabricante);
-			novoFabricante();
+			fabricanteDAO.editar(fabricante);
 			Messages.addGlobalInfo("Fabricante editado com sucesso");
 
 		} catch (RuntimeException erro) {
