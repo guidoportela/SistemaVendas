@@ -31,12 +31,12 @@
 					</p:column>
 
 					<p:column headerText="CPF" sortBy="#{cursorFuncionario.cpf}"
-						filterBy="#{cursorFuncionario.cpf}" style="width: 20%;">
+						filterBy="#{cursorFuncionario.cpf}" style="width: 18%;">
 						<h:outputText value="#{cursorFuncionario.cpf}" />
 					</p:column>
 
 					<p:column headerText="CLT"
-						sortBy="#{cursorFuncionario.carteiraTrabalho}" style="width: 15%;">
+						sortBy="#{cursorFuncionario.carteiraTrabalho}" style="width: 18%;">
 						<h:outputText value="#{cursorFuncionario.carteiraTrabalho}" />
 					</p:column>
 
@@ -47,7 +47,12 @@
 						</h:outputText>
 					</p:column>
 
-					<p:column headerText="Opções" style="width: 20%;">
+					<p:column headerText="Função" sortBy="#{cursorFuncionario.funcao}"
+						filterBy="#{cursorFuncionario.funcao}" style="width: 15%;">
+						<h:outputText value="#{cursorFuncionario.funcao}" />
+					</p:column>
+
+					<p:column headerText="Opções" style="width: 15%;">
 						<p:commandButton icon="ui-icon-trash"
 							actionListener="#{funcionarioBean.excluir}"
 							update=":mensagem :formListagem:tabela">
@@ -63,7 +68,7 @@
 							update=":mensagem :formCadastro:painel"
 							oncomplete="PF('dlgFuncionario').show();">
 							<f:attribute name="funcionarioSelecionado"
-								value="##{cursorFuncionario}" />
+								value="#{cursorFuncionario}" />
 							<f:actionListener
 								type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 						</p:commandButton>
@@ -80,7 +85,7 @@
 		</h:form>
 
 		<p:dialog header="Cadastro - Funcionário" widgetVar="dlgFuncionario"
-			draggable="false" resizable="false" modal="true" closable="false">
+			draggable="false" resizable="false" closable="false">
 			<h:form id="formCadastro">
 				<h:panelGrid id="painel" columns="2">
 					<p:outputLabel for="nome" value="Nome:" />
@@ -89,8 +94,14 @@
 						requiredMessage="O campo nome é obrigatório">
 					</p:inputText>
 
+					<p:outputLabel for="cpf" value="CPF:" />
+					<p:inputMask id="cpf" mask="999.999.999-99" size="20"
+						value="#{funcionarioBean.funcionario.cpf}">
+						<f:validateBean />
+					</p:inputMask>
+
 					<p:outputLabel for="clt" value="CLT:" />
-					<p:inputText id="clt" 
+					<p:inputText id="clt" maxlength="15" size="15"
 						value="#{funcionarioBean.funcionario.carteiraTrabalho}"
 						required="true" requiredMessage="O campo CLT é obrigatório">
 					</p:inputText>
@@ -101,6 +112,25 @@
 						required="true"
 						requiredMessage="O campo data admissão é obrigatório" size="10"
 						locale="pt_BR" />
+
+					<p:outputLabel for="funcao" value="Função:" />
+					<p:selectOneMenu id="funcao"
+						value="#{funcionarioBean.funcionario.funcao}" required="true"
+						requiredMessage="O campo função é obrigatório">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="Selecione uma função" />
+						<f:selectItem itemValue="Administrador" itemLabel="Administrador" />
+						<f:selectItem itemValue="Balconista" itemLabel="Balconista" />
+						<f:selectItem itemValue="Gerente" itemLabel="Gerente" />
+					</p:selectOneMenu>
+
+					<p:outputLabel for="senha" value="Senha:" />
+					<p:password id="senha" maxlength="8" size="10"
+						value="#{funcionarioBean.funcionario.senha}" required="true"
+						requiredMessage="O campo senha é obrigatório"
+						validatorMessage="Informe uma senha de 4 á 8 caracteres">
+						<f:validateLength minimum="4" maximum="8" />
+					</p:password>
 				</h:panelGrid>
 
 				<h:panelGrid columns="2">

@@ -59,7 +59,7 @@ public class FuncionarioBean implements Serializable {
 	public void salvar() {
 		try {
 			FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
-			funcionarioDAO.salvar(funcionario);
+			funcionarioDAO.merge(funcionario);
 
 			novoFuncionario();
 			funcionarios = funcionarioDAO.listarOrdenado("nome");

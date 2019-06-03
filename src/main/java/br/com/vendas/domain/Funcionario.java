@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 @Entity
 public class Funcionario {
 
@@ -21,6 +23,7 @@ public class Funcionario {
 	@Column(length = 50, nullable = false)
 	private String nome;
 
+	@CPF(message = "O CPF informado é invalido.")
 	@Column(length = 14, nullable = false, unique = true)
 	private String cpf;
 
